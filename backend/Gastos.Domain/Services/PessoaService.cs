@@ -17,20 +17,7 @@ namespace Gastos.Domain.Services
 
         public async Task<Pessoa> CriarPessoaAsync(string nome, int idade)
         {
-            if (string.IsNullOrWhiteSpace(nome))
-                throw new ArgumentException("Nome é obrigatório.");
-
-            if (nome.Length > 200)
-                throw new ArgumentException("Nome deve ter no máximo 200 caracteres.");
-
-            if (idade <= 0)
-                throw new ArgumentException("Idade deve ser maior que zero.");
-
-            var pessoa = new Pessoa
-            {
-                Nome = nome,
-                Idade = idade
-            };
+            var pessoa = new Pessoa(nome, idade);
 
             return await _pessoaRepository.AddAsync(pessoa);
         }
