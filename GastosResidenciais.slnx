@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="backend/Gastos.Api/Gastos.Api.csproj" />
+  <Project Path="backend/Gastos.Domain/Gastos.Domain.csproj" />
+  <Project Path="backend/Gastos.Infrastructure/Gastos.Infrastructure.csproj" />
+  <Project Path="backend/Gastos.Tests/Gastos.Tests.csproj" />
+</Solution>
