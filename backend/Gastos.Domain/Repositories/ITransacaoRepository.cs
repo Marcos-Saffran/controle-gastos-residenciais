@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Gastos.Domain.Repositories
 {
-    public interface IPessoaRepository
+    public interface ITransacaoRepository
     {
-        Task<Pessoa> AddAsync(Pessoa pessoa);
-
-        Task<Pessoa?> ObterPorIdAsync(int id);
+        Task<Transacao> AddAsync(Transacao transacao);
     }
 }

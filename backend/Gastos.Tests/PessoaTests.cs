@@ -5,7 +5,7 @@ using Moq;
 
 namespace Gastos.Tests
 {
-    public class PessoaServiceTests
+    public class PessoaTests
     {
 
         [Fact]

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Gastos.Tests
 {
-    public class CategoriaServiceTests
+    public class CategoriaTests
     {
         [Fact]
         public void Nao_deve_criar_categoria_com_descricao_vazia()
