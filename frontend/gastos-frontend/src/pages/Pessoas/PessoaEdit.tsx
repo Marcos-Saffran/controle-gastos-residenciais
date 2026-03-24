@@ -25,11 +25,12 @@ export function PessoaEdit() {
     <div style={{ padding: 20 }}>
       <h2>Editar Pessoa</h2>
 
-      <input value={nome} onChange={e => setNome(e.target.value)} />
+      <input placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} />
       <br /><br />
 
       <input
         type="number"
+        placeholder="Idade"
         value={idade}
         onChange={e => setIdade(Number(e.target.value))}
       />
