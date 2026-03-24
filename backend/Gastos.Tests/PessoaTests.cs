@@ -1,7 +1,4 @@
 ﻿using Gastos.Domain.Entities;
-using Gastos.Domain.Repositories;
-using Gastos.Domain.Services;
-using Moq;
 
 namespace Gastos.Tests
 {

@@ -1,12 +1,9 @@
 ﻿using Gastos.Domain.Entities;
 using Gastos.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Gastos.Domain.Services
 {
-    public class TransacaoService
+    public class TransacaoService : ITransacaoService
     {
         private readonly IPessoaRepository _pessoaRepo;
         private readonly ICategoriaRepository _categoriaRepo;
@@ -22,12 +19,34 @@ namespace Gastos.Domain.Services
             _transacaoRepo = transacaoRepo;
         }
 
+        public async Task AlterarDescricaoAsync(int transacaoId, string novaDescricao)
+        {
+            var transacao = await _transacaoRepo.ObterPorIdAsync(transacaoId)
+                             ?? throw new InvalidOperationException("Transação não encontrada.");
+
+            transacao.SetDescricao(novaDescricao);
+
+            await _transacaoRepo.SaveChangesAsync();
+        }
+
+        public Task AlterarTipoAsync(int transacaoId, TipoTransacao novoTipo)
+        {
+            // todo: implementar regras de validação para alteração de tipo (ex: categoria aceita o novo tipo?)
+            throw new NotImplementedException();
+        }
+
+        public Task AlterarValorAsync(int transacaoId, decimal novoValor)
+        {
+            // todo: implementar regras de validação para alteração de valor (ex: valor não pode ser negativo)
+            throw new NotImplementedException();
+        }
+
         public async Task<Transacao> CriarTransacaoAsync(
-    string descricao,
-    decimal valor,
-    TipoTransacao tipo,
-    int categoriaId,
-    int pessoaId)
+        string descricao,
+        decimal valor,
+        TipoTransacao tipo,
+        int categoriaId,
+        int pessoaId)
         {
             var pessoa = await _pessoaRepo.ObterPorIdAsync(pessoaId)
                          ?? throw new InvalidOperationException("Pessoa não encontrada.");

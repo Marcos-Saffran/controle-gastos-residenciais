@@ -1,7 +1,4 @@
 ﻿using Gastos.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Gastos.Domain.Repositories
 {
@@ -10,5 +7,8 @@ namespace Gastos.Domain.Repositories
         Task<Pessoa> AddAsync(Pessoa pessoa);
 
         Task<Pessoa?> ObterPorIdAsync(int id);
+        Task<List<Pessoa>> ListarAsync();
+
+        Task SaveChangesAsync();
     }
 }

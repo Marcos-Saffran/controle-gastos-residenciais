@@ -1,8 +1,4 @@
 ﻿using Gastos.Domain.Entities;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Gastos.Tests
 {
