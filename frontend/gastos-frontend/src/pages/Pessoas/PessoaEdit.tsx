@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
+import { navigateToErrorPage } from "../../api/handleApiError";
 
 export function PessoaEdit() {
   const { id } = useParams();
@@ -10,23 +11,35 @@ export function PessoaEdit() {
   const [idade, setIdade] = useState(0);
 
   useEffect(() => {
-    api.get(`/pessoas/${id}`).then(res => {
-      setNome(res.data.nome);
-      setIdade(res.data.idade);
-    });
-  }, [id]);
+    async function carregarPessoa() {
+      try {
+        const res = await api.get(`/pessoas/${id}`);
+        setNome(res.data.nome);
+        setIdade(res.data.idade);
+      } catch (error) {
+        navigateToErrorPage(navigate, error, true);
+      }
+    }
 
-  function salvar() {
-    api.put(`/pessoas/${id}/nome`, { nome });
-    api.put(`/pessoas/${id}/idade`, { idade }).then(() => navigate("/pessoas"));
+    carregarPessoa();
+  }, [id, navigate]);
+
+  async function salvar() {
+    try {
+      await api.put(`/pessoas/${id}/nome`, { nome });
+      await api.put(`/pessoas/${id}/idade`, { idade });
+      navigate("/pessoas");
+    } catch (error) {
+      navigateToErrorPage(navigate, error);
+    }
   }
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="page-shell">
       <h2>Editar Pessoa</h2>
 
       <input placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} />
-      <br /><br />
+      <div className="field-spacer" />
 
       <input
         type="number"
@@ -34,7 +47,7 @@ export function PessoaEdit() {
         value={idade}
         onChange={e => setIdade(Number(e.target.value))}
       />
-      <br /><br />
+      <div className="field-spacer" />
 
       <button onClick={salvar}>Salvar</button>
     </div>

@@ -1,5 +1,6 @@
 using Gastos.Domain.Repositories;
 using Gastos.Domain.Services;
+using Gastos.Api.Middleware;
 using Gastos.Infrastructure.EF;
 using Gastos.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // 1. Banco de Dados (SQLite)
 // ==========================================
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=gastos.db"));
+    options.UseSqlite("Data Source=Data/gastos.db"));
 
 
 // ==========================================
@@ -68,10 +69,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ApiExceptionMiddleware>();
+
 app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();

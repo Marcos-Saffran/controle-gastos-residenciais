@@ -8,6 +8,7 @@ namespace Gastos.Domain.Repositories
 
         Task<Pessoa?> ObterPorIdAsync(int id);
         Task<List<Pessoa>> ListarAsync();
+        Task DeleteAsync(Pessoa pessoa);
 
         Task SaveChangesAsync();
     }

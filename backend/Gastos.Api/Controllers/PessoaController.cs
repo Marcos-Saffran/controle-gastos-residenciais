@@ -14,11 +14,13 @@ namespace Gastos.Api.Controllers
     public class PessoaController : ControllerBase
     {
         private readonly IPessoaRepository _repo;
+        private readonly ITransacaoRepository _transacaoRepo;
         private readonly IPessoaService _service;
 
-        public PessoaController(IPessoaRepository repo, IPessoaService service)
+        public PessoaController(IPessoaRepository repo, ITransacaoRepository transacaoRepo, IPessoaService service)
         {
             _repo = repo;
+            _transacaoRepo = transacaoRepo;
             _service = service;
         }
 
@@ -43,6 +45,43 @@ namespace Gastos.Api.Controllers
             return Ok(await _repo.ListarAsync());
         }
 
+        [HttpGet("totais")]
+        public async Task<IActionResult> ConsultarTotaisPorPessoa()
+        {
+            var pessoas = await _repo.ListarAsync();
+            var transacoes = await _transacaoRepo.ListarAsync();
+
+            var totaisPorPessoa = pessoas.Select(pessoa =>
+            {
+                var totalReceitas = transacoes
+                    .Where(t => t.PessoaId == pessoa.Id && t.Tipo == TipoTransacao.Receita)
+                    .Sum(t => t.Valor);
+
+                var totalDespesas = transacoes
+                    .Where(t => t.PessoaId == pessoa.Id && t.Tipo == TipoTransacao.Despesa)
+                    .Sum(t => t.Valor);
+
+                return new PessoaTotaisDto(
+                    pessoa.Id,
+                    pessoa.Nome,
+                    totalReceitas,
+                    totalDespesas,
+                    totalReceitas - totalDespesas);
+            }).ToList();
+
+            var totalGeralReceitas = totaisPorPessoa.Sum(item => item.TotalReceitas);
+            var totalGeralDespesas = totaisPorPessoa.Sum(item => item.TotalDespesas);
+
+            var response = new PessoaTotaisConsultaResponseDto(
+                totaisPorPessoa,
+                new TotaisGeraisDto(
+                    totalGeralReceitas,
+                    totalGeralDespesas,
+                    totalGeralReceitas - totalGeralDespesas));
+
+            return Ok(response);
+        }
+
         [HttpPut("{id}/nome")]
         public async Task<IActionResult> AlterarNome(int id, PessoaUpdateNomeDto dto)
         {
@@ -54,6 +93,13 @@ namespace Gastos.Api.Controllers
         public async Task<IActionResult> AlterarIdade(int id, PessoaUpdateIdadeDto dto)
         {
             await _service.AlterarIdadeAsync(id, dto.Idade);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Excluir(int id)
+        {
+            await _service.ExcluirPessoaAsync(id);
             return NoContent();
         }
     }

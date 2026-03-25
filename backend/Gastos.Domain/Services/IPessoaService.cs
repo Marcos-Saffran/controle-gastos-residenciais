@@ -8,5 +8,6 @@ namespace Gastos.Domain.Services
     {
         Task AlterarNomeAsync(int pessoaId, string novoNome);
         Task AlterarIdadeAsync(int pessoaId, int novaIdade);
+        Task ExcluirPessoaAsync(int pessoaId);
     }
 }

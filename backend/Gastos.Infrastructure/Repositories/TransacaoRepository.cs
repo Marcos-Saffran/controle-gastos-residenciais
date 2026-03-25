@@ -33,6 +33,21 @@ public class TransacaoRepository : ITransacaoRepository
             .ToListAsync();
     }
 
+    public async Task DeleteByPessoaIdAsync(int pessoaId)
+    {
+        var transacoes = await _context.Transacoes
+            .Where(t => t.PessoaId == pessoaId)
+            .ToListAsync();
+
+        if (transacoes.Count == 0)
+        {
+            return;
+        }
+
+        _context.Transacoes.RemoveRange(transacoes);
+        await _context.SaveChangesAsync();
+    }
+
     public Task SaveChangesAsync()
     {
         return _context.SaveChangesAsync();

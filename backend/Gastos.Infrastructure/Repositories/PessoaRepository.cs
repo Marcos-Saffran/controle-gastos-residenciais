@@ -31,6 +31,12 @@ public class PessoaRepository : IPessoaRepository
         return await _context.Pessoas.ToListAsync();
     }
 
+    public async Task DeleteAsync(Pessoa pessoa)
+    {
+        _context.Pessoas.Remove(pessoa);
+        await _context.SaveChangesAsync();
+    }
+
     public Task SaveChangesAsync()
     {
         return _context.SaveChangesAsync();
