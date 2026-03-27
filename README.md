@@ -43,9 +43,11 @@ dotnet ef database update --project ../Gastos.Infrastructure --startup-project .
 dotnet run
 ```
 
-API em:
-- http://localhost:5000
-- https://localhost:5001
+Se aparecer erro do SQLite "unable to open database file", execute antes:
+
+```bash
+mkdir Data
+```
 
 Swagger:
 - https://localhost:5001/swagger

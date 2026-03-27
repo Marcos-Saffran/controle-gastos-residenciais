@@ -37,6 +37,12 @@ dotnet ef database update --project ../Gastos.Infrastructure --startup-project .
 dotnet run
 ```
 
+Se aparecer erro do SQLite "unable to open database file", rode antes:
+
+```bash
+mkdir Data
+```
+
 URLs da API:
 - http://localhost:5000
 - https://localhost:5001

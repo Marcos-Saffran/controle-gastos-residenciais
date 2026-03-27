@@ -10,8 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 // ==========================================
 // 1. Banco de Dados (SQLite)
 // ==========================================
+var dataDirectory = Path.Combine(builder.Environment.ContentRootPath, "Data");
+Directory.CreateDirectory(dataDirectory);
+var databasePath = Path.Combine(dataDirectory, "gastos.db");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=Data/gastos.db"));
+    options.UseSqlite($"Data Source={databasePath}"));
 
 
 // ==========================================
