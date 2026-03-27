@@ -9,6 +9,7 @@ import { PessoasTotais } from "./pages/Pessoas/PessoasTotais";
 
 import { CategoriasList } from "./pages/Categorias/CategoriasList";
 import { CategoriaCreate } from "./pages/Categorias/CategoriaCreate";
+import { CategoriasTotais } from "./pages/Categorias/CategoriasTotais";
 
 import { TransacoesList } from "./pages/Transacoes/TransacoesList";
 import { TransacaoCreate } from "./pages/Transacoes/TransacaoCreate";
@@ -30,6 +31,7 @@ function App() {
         {/* Categorias */}
         <Route path="/categorias" element={<CategoriasList />} />
         <Route path="/categorias/novo" element={<CategoriaCreate />} />
+        <Route path="/categorias/totais" element={<CategoriasTotais />} />
 
         {/* Transações */}
         <Route path="/transacoes" element={<TransacoesList />} />

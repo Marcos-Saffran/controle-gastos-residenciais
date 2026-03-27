@@ -141,27 +141,39 @@ button {
 
 .totais-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   min-width: 620px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(15, 106, 79, 0.15);
+  background: #ffffff;
+  border: 2px solid #2c4a40;
   border-radius: 12px;
+  overflow: hidden;
 }
 
 .totais-table th,
 .totais-table td {
   padding: 12px 14px;
-  border-bottom: 1px solid rgba(15, 106, 79, 0.12);
+  border-right: 1px solid #2c4a40;
+  border-bottom: 1px solid #2c4a40;
   text-align: left;
 }
 
+.totais-table th:last-child,
+.totais-table td:last-child {
+  border-right: none;
+}
+
+.totais-table tbody tr:last-child td,
+.totais-table tfoot tr:last-child td {
+  border-bottom: none;
+}
+
 .totais-table thead th {
-  background: rgba(15, 106, 79, 0.08);
+  background: #dceae4;
   font-weight: 700;
 }
 
 .totais-table tfoot td {
-  background: rgba(15, 106, 79, 0.14);
+  background: #cfe2d9;
   font-weight: 800;
-  border-bottom: none;
 }

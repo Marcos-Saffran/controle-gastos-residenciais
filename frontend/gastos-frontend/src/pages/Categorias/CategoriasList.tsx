@@ -30,6 +30,7 @@ export function CategoriasList() {
     <div className="page-shell">
       <h2>Categorias</h2>
       <Link to="/categorias/novo">Nova Categoria</Link>
+      <Link to="/categorias/totais" className="action-link">Ver Totais por Categoria</Link>
 
       <ul>
         {categorias.map(c => (

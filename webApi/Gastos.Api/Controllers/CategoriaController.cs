@@ -13,11 +13,13 @@ namespace Gastos.Api.Controllers
     public class CategoriaController : ControllerBase
     {
         private readonly ICategoriaRepository _repo;
+        private readonly ITransacaoRepository _transacaoRepo;
         private readonly ICategoriaService _service;
 
-        public CategoriaController(ICategoriaRepository repo, ICategoriaService service)
+        public CategoriaController(ICategoriaRepository repo, ITransacaoRepository transacaoRepo, ICategoriaService service)
         {
             _repo = repo;
+            _transacaoRepo = transacaoRepo;
             _service = service;
         }
 
@@ -40,6 +42,43 @@ namespace Gastos.Api.Controllers
         public async Task<IActionResult> Listar()
         {
             return Ok(await _repo.ListarAsync());
+        }
+
+        [HttpGet("totais")]
+        public async Task<IActionResult> ConsultarTotaisPorCategoria()
+        {
+            var categorias = await _repo.ListarAsync();
+            var transacoes = await _transacaoRepo.ListarAsync();
+
+            var totaisPorCategoria = categorias.Select(categoria =>
+            {
+                var totalReceitas = transacoes
+                    .Where(t => t.CategoriaId == categoria.Id && t.Tipo == TipoTransacao.Receita)
+                    .Sum(t => t.Valor);
+
+                var totalDespesas = transacoes
+                    .Where(t => t.CategoriaId == categoria.Id && t.Tipo == TipoTransacao.Despesa)
+                    .Sum(t => t.Valor);
+
+                return new CategoriaTotaisDto(
+                    categoria.Id,
+                    categoria.Descricao,
+                    totalReceitas,
+                    totalDespesas,
+                    totalReceitas - totalDespesas);
+            }).ToList();
+
+            var totalGeralReceitas = totaisPorCategoria.Sum(item => item.TotalReceitas);
+            var totalGeralDespesas = totaisPorCategoria.Sum(item => item.TotalDespesas);
+
+            var response = new CategoriaTotaisConsultaResponseDto(
+                totaisPorCategoria,
+                new CategoriaTotaisGeraisDto(
+                    totalGeralReceitas,
+                    totalGeralDespesas,
+                    totalGeralReceitas - totalGeralDespesas));
+
+            return Ok(response);
         }
 
         [HttpPut("{id}/descricao")]
