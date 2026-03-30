@@ -60,7 +60,7 @@ public class Transacao
 
     public void SetTipo(TipoTransacao tipo)
     {
-        if (!Enum.IsDefined(typeof(TipoTransacao), tipo))
+        if (!Enum.IsDefined(tipo))
             throw new ArgumentException("Tipo inválido.");
 
         Tipo = tipo;

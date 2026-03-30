@@ -34,7 +34,7 @@ public class Categoria
 
     public void SetFinalidade(FinalidadeCategoria finalidade)
     {
-        if (!Enum.IsDefined(typeof(FinalidadeCategoria), finalidade))
+        if (!Enum.IsDefined(finalidade))
             throw new ArgumentException("Finalidade inválida.");
 
         Finalidade = finalidade;
